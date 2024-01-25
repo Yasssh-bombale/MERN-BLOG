@@ -1,7 +1,8 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import { errorHandler } from "../utils/error.js";
 
-export const signUp = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
     if (
@@ -12,22 +13,19 @@ export const signUp = async (req, res) => {
       email === "" ||
       password === ""
     ) {
-      return res.status(400).json({
-        success: false,
-        message: "All fileds are required",
-      });
+      next(errorHandler(400, "All fields are required"));
     }
     //check for user already eixits in dataBase
     const isEmailTaken = await User.findOne({ email });
     const isUserNameTaken = await User.findOne({ username });
 
     if (isEmailTaken || isUserNameTaken) {
-      return res.status(400).json({
-        success: false,
-        message: isEmailTaken
-          ? "User already exists"
-          : "Username already taken",
-      });
+      next(
+        errorHandler(
+          400,
+          isEmailTaken ? "User already exists" : "username already taken"
+        )
+      );
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10); //hashing password
@@ -43,8 +41,6 @@ export const signUp = async (req, res) => {
       message: "User sign up successfully",
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
