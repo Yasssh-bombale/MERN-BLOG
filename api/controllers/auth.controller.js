@@ -13,14 +13,14 @@ export const signUp = async (req, res, next) => {
       email === "" ||
       password === ""
     ) {
-      next(errorHandler(400, "All fields are required"));
+      return next(errorHandler(400, "All fields are required"));
     }
     //check for user already eixits in dataBase
     const isEmailTaken = await User.findOne({ email });
     const isUserNameTaken = await User.findOne({ username });
 
     if (isEmailTaken || isUserNameTaken) {
-      next(
+      return next(
         errorHandler(
           400,
           isEmailTaken ? "User already exists" : "username already taken"

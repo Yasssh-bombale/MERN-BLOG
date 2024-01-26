@@ -1,8 +1,49 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Label, TextInput } from "flowbite-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
 import img1 from "../img/ios memoji 3.jpg";
+import { BiError } from "react-icons/bi";
+import toast from "react-hot-toast";
+
 const SignUp = () => {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); //trim() removes blank spaces;
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // if (!formData.username || !formData.email || !formData.password) {
+    //   setErrorMessage("All fields are required");
+    // }
+    try {
+      setErrorMessage("");
+      setIsLoading(true);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setIsLoading(false);
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+      if (res.ok) {
+        if (data.message) {
+          toast.success(data.message);
+        }
+        navigate("/sign-in");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="border border-black min-h-screen mt-20">
       <div className="border border-black flex flex-col md:flex-row md:items-center max-w-3xl md:max-w-5xl mx-auto gap-10 md:gap-14">
@@ -32,21 +73,51 @@ const SignUp = () => {
         </div>
         {/* right side */}
         <div className="flex-1">
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={submitHandler}>
             <div>
               <Label value="Your username" className="text-[1rem]" />
-              <TextInput id="username" placeholder="Username" required />
+              <TextInput
+                id="username"
+                type="text"
+                placeholder="Username"
+                // required
+                onChange={handleChange}
+              />
             </div>
             <div>
               <Label value="Your email" className="text-[1rem]" />
-              <TextInput id="email" placeholder="Email" required />
+              <TextInput
+                id="email"
+                type="email"
+                placeholder="Email"
+                // required
+                onChange={handleChange}
+              />
             </div>
             <div>
               <Label value="Your password" className="text-[1rem]" />
-              <TextInput id="password" placeholder="Password" required />
+              <TextInput
+                id="password"
+                type="password"
+                placeholder="Password"
+                // required
+                onChange={handleChange}
+              />
             </div>
-            <Button type="submit" size={"md"} gradientDuoTone={"purpleToPink"}>
-              Sign Up
+            <Button
+              type="submit"
+              size={"md"}
+              gradientDuoTone={"purpleToPink"}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Spinner size={"sm"} />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
           <div className="flex gap-2 mt-2 text-[1rem]">
@@ -55,6 +126,11 @@ const SignUp = () => {
               Sign In
             </Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-4" color={"failure"} icon={BiError}>
+              <p className="text-[1rem]">{errorMessage}</p>
+            </Alert>
+          )}
         </div>
       </div>
     </div>

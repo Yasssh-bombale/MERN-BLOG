@@ -6,11 +6,12 @@ import SignUp from "./pages/SignUp";
 import DashBoard from "./pages/DashBoard";
 import Projects from "./pages/Projects";
 import Header from "./components/Header";
-
+import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
       <Router>
+        <Toaster />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
