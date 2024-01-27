@@ -80,14 +80,17 @@ const FooterComp = () => {
           <div className="flex gap-7 mt-2">
             <Footer.Icon
               href="https://github.com/Yasssh-bombale"
+              target="_blank"
               icon={BsGithub}
             />
             <Footer.Icon
               href="https://instagram.com/yash_bombale_official"
+              target="_blank"
               icon={BsInstagram}
             />
             <Footer.Icon
               href="https://www.linkedin.com/in/yash-bombale-110226244"
+              target="_blank"
               icon={BsLinkedin}
             />
             <Footer.Icon href="#" icon={BsTwitter} />
