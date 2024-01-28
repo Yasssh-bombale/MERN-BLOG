@@ -75,6 +75,7 @@ export const signIn = async (req, res, next) => {
       })
       .json({
         success: true,
+        message: "User logged in",
         rest,
       });
   } catch (error) {

@@ -45,12 +45,12 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="border border-black min-h-screen mt-20">
-      <div className="border border-black flex flex-col md:flex-row md:items-center max-w-3xl md:max-w-5xl mx-auto gap-10 md:gap-14">
+    <div className=" min-h-screen mt-20">
+      <div className="flex flex-col md:flex-row md:items-center max-w-3xl md:max-w-5xl mx-auto gap-6 md:gap-10">
         {/* left side */}
         {/* flex-1 cause equal distribution of size between left part and right part */}
-        <div className="flex-1 flex flex-col">
-          <div className="md:flex md:items-center self-center border border-black ">
+        <div className="flex-1 flex flex-col p-5 md:p-2">
+          <div className="md:flex md:items-center self-center">
             <Link
               to={"/"}
               className="text-3xl md:text-4xl  font-bold dark:text-white "
@@ -66,13 +66,13 @@ const SignUp = () => {
               alt="memoji"
             />
           </div>
-          <p className="text-lg mt-5 border border-black">
+          <p className="text-lg mt-5">
             This is a blog website.You can sign up with your email and password
             or with google
           </p>
         </div>
         {/* right side */}
-        <div className="flex-1">
+        <div className="flex-1 p-3">
           <form className="flex flex-col gap-4" onSubmit={submitHandler}>
             <div>
               <Label value="Your username" className="text-[1rem]" />
