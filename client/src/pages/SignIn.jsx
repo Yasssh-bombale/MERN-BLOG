@@ -4,12 +4,18 @@ import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
 import img1 from "../img/ios memoji 3.jpg";
 import { BiError } from "react-icons/bi";
 import toast from "react-hot-toast";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/user.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); //dispatcher for redux;
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); //trim() removes blank spaces;
@@ -21,17 +27,19 @@ const SignIn = () => {
     //   setErrorMessage("All fields are required");
     // }
     try {
-      setErrorMessage("");
-      setIsLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setIsLoading(false);
+
+      data.success === true ? dispatch(signInSuccess(data.rest)) : "";
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        if (data.message) {
+          return dispatch(signInFailure(data.message));
+        }
       }
       if (res.ok) {
         if (data.message) {
@@ -40,8 +48,7 @@ const SignIn = () => {
         navigate("/");
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setIsLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -98,9 +105,9 @@ const SignIn = () => {
               type="submit"
               size={"md"}
               gradientDuoTone={"purpleToPink"}
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? (
+              {loading ? (
                 <>
                   <Spinner size={"sm"} />
                   <span className="pl-3">Loading...</span>
