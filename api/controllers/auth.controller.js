@@ -82,3 +82,56 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+
+// Google Authentication;
+export const google = async (req, res, next) => {
+  const { name, email, googlePhotoUrl } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    // check for user ,if user exists then we create an token and cookie and return but user not exist then we need to create an user;
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
+      //seperating password from user;
+      const { password, ...rest } = user._doc;
+      return res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    } else {
+      //creating user
+
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      // creating unique username;
+      const generatedUserName =
+        name.toLowerCase().split(" ").join("") +
+        Math.floor(Math.random() * 10000 + 1);
+
+      const newUser = await User.create({
+        username: generatedUserName,
+        email,
+        password: hashedPassword,
+        profilePicture: googlePhotoUrl,
+      });
+
+      // now creating token and cookie;
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+      //seperating password from user;
+      const { password, ...rest } = newUser._doc;
+
+      return res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    }
+  } catch (error) {
+    next(error);
+  }
+};

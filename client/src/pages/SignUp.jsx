@@ -4,6 +4,7 @@ import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
 import img1 from "../img/ios memoji 3.jpg";
 import { BiError } from "react-icons/bi";
 import toast from "react-hot-toast";
+import Oauth from "../components/Oauth";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -119,6 +120,7 @@ const SignUp = () => {
                 "Sign Up"
               )}
             </Button>
+            <Oauth />
           </form>
           <div className="flex gap-2 mt-2 text-[1rem]">
             <span>Have an account?</span>

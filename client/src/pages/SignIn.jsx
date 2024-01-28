@@ -10,6 +10,7 @@ import {
   signInFailure,
 } from "../redux/user/user.slice";
 import { useDispatch, useSelector } from "react-redux";
+import Oauth from "../components/Oauth";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -116,6 +117,7 @@ const SignIn = () => {
                 "Sign In"
               )}
             </Button>
+            <Oauth />
           </form>
           <div className="flex gap-2 mt-2 text-[1rem]">
             <span>Dont have an account?</span>
