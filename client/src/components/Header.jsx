@@ -3,10 +3,14 @@ import { Button, Navbar, TextInput, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillMoonStarsFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme/theme.slice";
+import { FiSun } from "react-icons/fi";
 const Header = () => {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
   return (
     <Navbar className="border-b-2 ">
       <Link
@@ -31,8 +35,13 @@ const Header = () => {
         </Button>
       </form>
       <div className="flex gap-4 md:order-2">
-        <Button color="gray" className="w-15 h-10 hidden sm:inline" pill>
-          <BsFillMoonStarsFill />
+        <Button
+          color="gray"
+          className="w-15 h-10 hidden sm:inline"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {theme === "light" ? <BsFillMoonStarsFill /> : <FiSun />}
         </Button>
 
         {currentUser ? (
