@@ -6,6 +6,7 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/theme.slice";
 import { FiSun } from "react-icons/fi";
+
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();

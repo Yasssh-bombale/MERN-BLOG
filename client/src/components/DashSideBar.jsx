@@ -3,6 +3,7 @@ import { Sidebar } from "flowbite-react";
 import { HiUser } from "react-icons/hi";
 import { PiSignOutBold } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
+
 const DashSideBar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -22,6 +23,7 @@ const DashSideBar = () => {
                 icon={HiUser}
                 label={"user"}
                 labelColor={"dark"}
+                as="div"
               >
                 Profile
               </Sidebar.Item>
