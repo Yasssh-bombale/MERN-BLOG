@@ -11,17 +11,41 @@ import {
 } from "../redux/user/user.slice";
 import { useDispatch, useSelector } from "react-redux";
 import Oauth from "../components/Oauth";
-
+import confetti from "canvas-confetti";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch(); //dispatcher for redux;
   const { loading, error: errorMessage } = useSelector((state) => state.user);
 
+  // launching confetti animation on user sign in;
+  const launchConfetti = () => {
+    confetti({
+      scalar: 1,
+      spread: 180,
+      particleCount: 100,
+      angle: 90,
+      origin: { y: -0.5 },
+      startVelocity: -60,
+    });
+
+    setTimeout(() => {
+      confetti({
+        scalar: 1,
+        spread: 180,
+        particleCount: 100,
+        angle: 90,
+        origin: { y: -0.5 },
+        startVelocity: -60,
+      });
+    }, 1000);
+  };
+
+  //input change Handler;
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); //trim() removes blank spaces;
   };
-
+  // form handler;
   const submitHandler = async (e) => {
     e.preventDefault();
     // if (!formData.username || !formData.email || !formData.password) {
@@ -45,6 +69,7 @@ const SignIn = () => {
       if (res.ok) {
         if (data.message) {
           toast.success(data.message);
+          launchConfetti();
         }
         navigate("/");
       }

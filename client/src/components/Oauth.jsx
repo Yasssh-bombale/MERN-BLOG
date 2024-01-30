@@ -6,9 +6,36 @@ import { app } from "../firebase";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/user/user.slice";
 import { useNavigate } from "react-router-dom";
+import confetti from "canvas-confetti";
+import toast from "react-hot-toast";
 const Oauth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //  launching confetti animation on user sign in with google;
+  const launchConfetti = () => {
+    confetti({
+      scalar: 1,
+      spread: 180,
+      particleCount: 100,
+      angle: 90,
+      origin: { y: -0.5 },
+      startVelocity: -60,
+    });
+
+    setTimeout(() => {
+      confetti({
+        scalar: 1,
+        spread: 180,
+        particleCount: 100,
+        angle: 90,
+        origin: { y: -0.5 },
+        startVelocity: -60,
+      });
+    }, 1000);
+  };
+
+  //google btn handler;
   const changeHandler = async () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" }); // Allowing users if selecting popup window even if they have only one account
@@ -31,7 +58,14 @@ const Oauth = () => {
       const data = await res.json(); //*** Note : await is required */
       // console.log(data);
       if (res.ok) {
-        dispatch(signInSuccess(data));
+        if (data.rest) {
+          dispatch(signInSuccess(data.rest));
+          if (data.message) {
+            toast.success(data.message);
+            launchConfetti(); //launching confitte animation on success;
+          }
+        }
+
         navigate("/");
       }
     } catch (error) {

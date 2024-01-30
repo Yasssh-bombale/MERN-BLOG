@@ -98,7 +98,11 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
         })
-        .json(rest);
+        .json({
+          success: true,
+          message: "User logged in",
+          rest,
+        });
     } else {
       //creating user
 
@@ -129,7 +133,11 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
         })
-        .json(rest);
+        .json({
+          success: true,
+          message: "User sign up successfully",
+          rest,
+        });
     }
   } catch (error) {
     next(error);
