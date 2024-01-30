@@ -70,7 +70,7 @@ const SignIn = () => {
             </Link>
             <img
               src={img1}
-              className="w-52 h-52 hidden md:inline"
+              className="w-52 h-52 hidden md:inline rounded-2xl ml-1"
               alt="memoji"
             />
           </div>
