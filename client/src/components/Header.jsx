@@ -12,7 +12,7 @@ const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   return (
-    <Navbar className="border-b-2 ">
+    <Navbar className="border-b-2">
       <Link
         to={"/"}
         className="whitespace-nowrap self-center text-sm sm:text-lg font-semibold dark:text-white"
@@ -37,7 +37,7 @@ const Header = () => {
       <div className="flex gap-4 md:order-2">
         <Button
           color="gray"
-          className="w-15 h-10 hidden sm:inline"
+          className="w-15 h-10 inline"
           pill
           onClick={() => dispatch(toggleTheme())}
         >
