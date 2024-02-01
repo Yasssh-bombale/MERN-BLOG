@@ -2,7 +2,9 @@ import express from "express";
 import { config } from "dotenv";
 import userRouter from "./routers/user.router.js";
 import authRouter from "./routers/auth.router.js";
+import postRouter from "./routers/post.route.js";
 import cookieParser from "cookie-parser";
+
 config({
   path: ".env", //env file located in root directory
 });
@@ -13,7 +15,7 @@ app.use(cookieParser());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-
+app.use("/api/post", postRouter);
 // Middleware for errors
 
 app.use((error, req, res, next) => {
