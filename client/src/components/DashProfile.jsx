@@ -17,6 +17,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOutSuccess,
 } from "../redux/user/user.slice";
 import { toast } from "react-hot-toast";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -159,6 +160,24 @@ const DashProfile = () => {
       dispatch(deleteUserFailure(error.message));
     }
   };
+
+  //signOut handler //-> also clearing currentUser from redux;
+  const signOutHandler = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-4 font-semibold text-3xl text-center">Profile</h1>
@@ -244,7 +263,9 @@ const DashProfile = () => {
         <span onClick={() => setOpenModal(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={signOutHandler} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserError && (
         <Alert color={"failure"} className="mt-5">

@@ -6,12 +6,31 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/theme.slice";
 import { FiSun } from "react-icons/fi";
+import { signOutSuccess } from "../redux/user/user.slice";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+
+  const signOutHandler = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Navbar className="border-b-2">
       <Link
@@ -64,7 +83,10 @@ const Header = () => {
                 </Dropdown.Item>
               </Link>
               <Dropdown.Divider />
-              <Dropdown.Item className="ext-sm font-semibold">
+              <Dropdown.Item
+                className="ext-sm font-semibold"
+                onClick={signOutHandler}
+              >
                 Sign Out
               </Dropdown.Item>
             </Dropdown.Header>
