@@ -21,6 +21,8 @@ import {
 } from "../redux/user/user.slice";
 import { toast } from "react-hot-toast";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
+
 const DashProfile = () => {
   const [imageFile, setImageFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
@@ -117,7 +119,7 @@ const DashProfile = () => {
       return setUpdateUserError("Please wait for image to upload");
     }
     try {
-      dispatch(updateStart());
+      dispatch(updateStart()); //updateUserStart
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -248,7 +250,12 @@ const DashProfile = () => {
           placeholder="password"
           onChange={formChangeHandler}
         />
-        <Button type="submit" gradientDuoTone={"purpleToBlue"} outline>
+        <Button
+          type="submit"
+          gradientDuoTone={"purpleToBlue"}
+          outline
+          disabled={loading || imageFileUploading}
+        >
           {loading ? (
             <>
               <Spinner size={"sm"} />
@@ -258,6 +265,17 @@ const DashProfile = () => {
             "Update account"
           )}
         </Button>
+        <Link to={"/create-post"}>
+          {currentUser.isAdmin && (
+            <Button
+              type="button"
+              gradientDuoTone={"purpleToPink"}
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          )}
+        </Link>
       </form>
       <div className="mt-4 text-red-500 flex justify-between">
         <span onClick={() => setOpenModal(true)} className="cursor-pointer">
