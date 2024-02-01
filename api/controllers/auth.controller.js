@@ -63,7 +63,10 @@ export const signIn = async (req, res, next) => {
     if (!isPasswordMatch) return next(errorHandler(400, "Incorrect password"));
 
     // create token for cookie;
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET_KEY
+    );
 
     //sperating password from validUser;
     const { password: pass, ...rest } = validUser._doc;
@@ -90,7 +93,10 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email });
     // check for user ,if user exists then we create an token and cookie and return but user not exist then we need to create an user;
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET_KEY
+      );
       //seperating password from user;
       const { password, ...rest } = user._doc;
       return res
@@ -124,7 +130,10 @@ export const google = async (req, res, next) => {
       });
 
       // now creating token and cookie;
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET_KEY
+      );
       //seperating password from user;
       const { password, ...rest } = newUser._doc;
 
