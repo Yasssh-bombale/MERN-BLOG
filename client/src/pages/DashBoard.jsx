@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import DashSideBar from "../components/DashSideBar";
 import DashProfile from "../components/DashProfile";
+import DashPosts from "../components/DashPosts";
 
 const DashBoard = () => {
   const location = useLocation();
+  //return the objects that contains path and search value;
+
   const [tab, setTab] = useState("");
-  //return the objects that contains path and searcg value;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -24,6 +26,7 @@ const DashBoard = () => {
       </div>
       {/* DashBoard profile */}
       {tab === "profile" && <DashProfile />}
+      {tab === "posts" && <DashPosts />}
     </div>
   );
 };
