@@ -6,12 +6,12 @@ import SignUp from "./pages/SignUp";
 import DashBoard from "./pages/DashBoard";
 import Projects from "./pages/Projects";
 import Header from "./components/Header";
-
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
+
 function App() {
   return (
     <>
