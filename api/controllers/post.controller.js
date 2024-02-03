@@ -40,7 +40,9 @@ export const createPost = async (req, res, next) => {
 
 export const getPosts = async (req, res, next) => {
   try {
+    console.log(req.query.startIndex);
     const startIndex = parseInt(req.query.startIndex) || 0;
+
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1; //1 stands for asc and -1 stands for dsc in mongoDB;
 
