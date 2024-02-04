@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { signOutSuccess } from "../redux/user/user.slice";
 import { useSelector } from "react-redux";
 import { HiDocumentText } from "react-icons/hi";
+import { HiMiniUserGroup } from "react-icons/hi2";
+
 const DashSideBar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -61,6 +63,17 @@ const DashSideBar = () => {
                   as="div"
                 >
                   Posts
+                </Sidebar.Item>
+              </Link>
+            )}
+            {currentUser.isAdmin && (
+              <Link to={"/dashboard?tab=users"}>
+                <Sidebar.Item
+                  active={tab === "users"}
+                  icon={HiMiniUserGroup}
+                  as="div"
+                >
+                  Users
                 </Sidebar.Item>
               </Link>
             )}
