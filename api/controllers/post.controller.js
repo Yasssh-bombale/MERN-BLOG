@@ -105,3 +105,55 @@ export const deletePost = async (req, res, next) => {
     next(error);
   }
 };
+
+//updatePost;
+export const updatePost = async (req, res, next) => {
+  const { userId, postId } = req.params;
+
+  if (!req.user.isAdmin || req.user.id !== userId) {
+    return next(errorHandler(403, "You are not allowed to update this post"));
+  }
+
+  if (
+    !req.body.title &&
+    !req.body.category &&
+    !req.body.image &&
+    !req.body.content
+  ) {
+    return next(errorHandler(400, "No changes provided for update"));
+  }
+
+  try {
+    // creating slug;
+    let slug;
+    if (req.body.title) {
+      slug = req.body.title
+        .split(" ")
+        .join("-")
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9-]/g, "");
+    }
+
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      // By using $set we are allowing only those information we are setting for example user not able to update userId and slugs
+      {
+        $set: {
+          title: req.body.title,
+          category: req.body.category,
+          image: req.body.image,
+          content: req.body.content,
+          slug: slug,
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json({
+      success: true,
+      message: "Post updated",
+      post,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
