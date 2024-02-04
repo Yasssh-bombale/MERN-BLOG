@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 import { Button, Modal, Table } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaTimes, FaCheck } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userIdToDelete, setUserIdToDelete] = useState("");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -52,7 +54,30 @@ const DashUsers = () => {
   };
 
   //deletePostHandler
-  const deleteUserHandler = () => {};
+  const deleteUserHandler = async () => {
+    try {
+      const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) =>
+          prev.filter((prevUser) => prevUser._id !== userIdToDelete)
+        );
+        setOpenModal(false);
+        if (users.length < 9) {
+          setShowMore(false);
+        }
+        if (data && data.message) {
+          toast.success(data.message);
+        }
+      } else {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 w-full">
@@ -93,7 +118,7 @@ const DashUsers = () => {
                     <span
                       onClick={() => {
                         setOpenModal(true);
-                        setPostId(post._id);
+                        setUserIdToDelete(user._id);
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
