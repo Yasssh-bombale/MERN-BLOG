@@ -12,13 +12,16 @@ const CommentSection = ({ postId }) => {
   const commentSubmitHandler = async (e) => {
     e.preventDefault();
     try {
+      const isValidComment = /[a-zA-Z0-9]/.test(comment);
+      console.log(comment.trim());
+
       setLoading(true);
       setError("");
       const res = await fetch(`/api/comment/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: comment,
+          content: comment.trim(),
           postId,
           userId: currentUser._id,
         }),
@@ -32,6 +35,7 @@ const CommentSection = ({ postId }) => {
         setLoading(false);
       } else {
         setLoading(false);
+        setComment("");
         if (data.message) {
           setError(data.message);
         }

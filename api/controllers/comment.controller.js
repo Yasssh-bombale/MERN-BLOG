@@ -12,7 +12,7 @@ export const createComment = async (req, res, next) => {
     }
 
     if (!content) {
-      return next(errorHandler(401, "You need to type something"));
+      return next(errorHandler(401, "You need to type something..."));
     }
 
     const comment = await Comment.create({
