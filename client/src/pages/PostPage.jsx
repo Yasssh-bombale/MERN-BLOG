@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
+import CommentSection from "../components/CommentSection";
 const PostPage = () => {
   //getting postSlug from params using useParams hook;
   const { postSlug } = useParams();
@@ -42,7 +43,7 @@ const PostPage = () => {
     );
   }
   return (
-    <main className="border border-black flex flex-col min-h-screen max-w-6xl p-3 mx-auto">
+    <main className="flex flex-col min-h-screen max-w-6xl p-3 mx-auto">
       <h1
         className="text-3xl mt-10 text-center font-serif mx-auto p-2 lg:text-4xl max-w-2xl 
       break-normal "
@@ -70,9 +71,10 @@ const PostPage = () => {
         </span>
       </div>
       <div
-        className="max-w-2xl w-full p-3 border mx-auto post-content break-words"
+        className="max-w-2xl w-full p-3  mx-auto post-content break-words"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
+      <CommentSection postId={post._id} />
     </main>
   );
 };

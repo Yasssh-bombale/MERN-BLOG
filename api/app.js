@@ -3,8 +3,8 @@ import { config } from "dotenv";
 import userRouter from "./routers/user.router.js";
 import authRouter from "./routers/auth.router.js";
 import postRouter from "./routers/post.route.js";
+import commentRouter from "./routers/comment.route.js";
 import cookieParser from "cookie-parser";
-
 config({
   path: ".env", //env file located in root directory
 });
@@ -13,9 +13,11 @@ export const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// Routers
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 // Middleware for errors
 
 app.use((error, req, res, next) => {
