@@ -1,20 +1,34 @@
 import { Button, Textarea, Spinner, Alert } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const { currentUser } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [comments, setComments] = useState([]); //storing fetched comments to this array
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchComments();
+  }, [postId]);
 
   const commentSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const isValidComment = /[a-zA-Z0-9]/.test(comment);
-      console.log(comment.trim());
-
       setLoading(true);
       setError("");
       const res = await fetch(`/api/comment/create`, {
@@ -33,6 +47,7 @@ const CommentSection = ({ postId }) => {
         setComment("");
         setError("");
         setLoading(false);
+        setComments((prev) => [data, ...prev]);
       } else {
         setLoading(false);
         setComment("");
@@ -48,7 +63,7 @@ const CommentSection = ({ postId }) => {
   };
 
   return currentUser ? (
-    <div className="max-w-2xl w-full mx-auto gap-1 ">
+    <div className="max-w-2xl w-full mx-auto">
       <div className="flex p-3 items-center gap-2 text-gray-500 my-5">
         <p>signed in as :</p>
         <img
@@ -58,7 +73,7 @@ const CommentSection = ({ postId }) => {
         />
         <Link
           to={"/dashboard?tab=profile"}
-          className="text-sm text-cyan-600 hover:underline"
+          className="text-sm text-cyan-600 hover:underline font-semibold"
         >
           @{currentUser.username}
         </Link>
@@ -97,6 +112,21 @@ const CommentSection = ({ postId }) => {
             </Alert>
           )}
         </form>
+      )}
+      {comments && comments.length === 0 ? (
+        <p className="my-5 text-[1rem]">No comments yet!</p>
+      ) : (
+        <>
+          <div className="flex items-center gap-2 my-4">
+            <p>Comments</p>
+            <div className="border border-gray-400 px-3 py-1 rounded-md">
+              <p>{comments && comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+        </>
       )}
     </div>
   ) : (
