@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 const PostPage = () => {
   //getting postSlug from params using useParams hook;
   const { postSlug } = useParams();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState("");
+  const [recentPosts, setRecentPosts] = useState([]);
 
   useEffect(() => {
     try {
@@ -34,6 +36,21 @@ const PostPage = () => {
       setLoading(false);
     }
   }, [postSlug]);
+
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      try {
+        const res = await fetch(`/api/post/getposts?limit=3`);
+        if (res.ok) {
+          const data = await res.json();
+          setRecentPosts(data.posts);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRecentPosts();
+  }, []); //mount only ones;
 
   if (loading) {
     return (
@@ -75,6 +92,13 @@ const PostPage = () => {
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
       <CommentSection postId={post._id} />
+      <div className="flex flex-col justify-center items-center my-5 ">
+        <h1 className="text-xl mt-5">Recent articles</h1>
+        <div className="flex flex-wrap gap-5 mt-4 justify-center">
+          {recentPosts &&
+            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+        </div>
+      </div>
     </main>
   );
 };
