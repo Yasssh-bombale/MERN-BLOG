@@ -4,7 +4,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea, Alert } from "flowbite-react";
 
-const Comment = ({ comment, onLike, onEdit }) => {
+const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const [user, setUser] = useState({});
   const { currentUser } = useSelector((state) => state.user);
   const [isEditable, setIsEditable] = useState(false);
@@ -107,7 +107,7 @@ const Comment = ({ comment, onLike, onEdit }) => {
             <p className="text-gray-500 pl-2 mb-2 dark:text-gray-400">
               {comment.content}
             </p>
-            <div className="flex items-center gap-2 border-t dark:border-gray-700 max-w-fit ">
+            <div className="flex items-center gap-2 border-t dark:border-gray-700 max-w-fit pt-2">
               <button
                 onClick={() => onLike(comment._id)}
                 className={`text-gray-500 hover:text-blue-500 ${
@@ -126,12 +126,20 @@ const Comment = ({ comment, onLike, onEdit }) => {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    onClick={editCommentHandler}
-                    className="text-gray-400 hover:text-blue-500 text-sm"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      onClick={editCommentHandler}
+                      className="text-gray-400 hover:text-blue-500 text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(comment._id)}
+                      className="text-gray-400 hover:text-red-500 text-sm"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
