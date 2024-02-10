@@ -4,13 +4,15 @@ import DashSideBar from "../components/DashSideBar";
 import DashProfile from "../components/DashProfile";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
+import DashComments from "../components/DashComments";
+import { useSelector } from "react-redux";
 
 const DashBoard = () => {
   const location = useLocation();
   //return the objects that contains path and search value;
 
   const [tab, setTab] = useState("");
-
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromURL = urlParams.get("tab"); //return value of tab;
@@ -27,8 +29,12 @@ const DashBoard = () => {
       </div>
       {/* DashBoard profile */}
       {tab === "profile" && <DashProfile />}
-      {tab === "posts" && <DashPosts />}
-      {tab === "users" && <DashUsers />}
+
+      {currentUser &&
+        currentUser.isAdmin &&
+        ((tab === "posts" && <DashPosts />) ||
+          (tab === "users" && <DashUsers />) ||
+          (tab === "comments" && <DashComments />))}
     </div>
   );
 };
