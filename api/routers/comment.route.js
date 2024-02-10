@@ -3,6 +3,7 @@ import {
   createComment,
   deleteComment,
   editComment,
+  getAllComments,
   getComments,
   likeComment,
 } from "../controllers/comment.controller.js";
@@ -15,5 +16,6 @@ router.get("/getPostComments/:postId", getComments);
 router.put("/likeComments/:commentId", isAuthenticated, likeComment);
 router.put("/editComment/:commentId", isAuthenticated, editComment);
 router.delete("/deleteComment/:commentId", isAuthenticated, deleteComment);
+router.get("/getComments", isAuthenticated, getAllComments);
 
 export default router;
