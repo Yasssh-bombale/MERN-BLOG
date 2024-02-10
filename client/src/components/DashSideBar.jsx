@@ -9,7 +9,7 @@ import { signOutSuccess } from "../redux/user/user.slice";
 import { useSelector } from "react-redux";
 import { HiDocumentText } from "react-icons/hi";
 import { HiMiniUserGroup } from "react-icons/hi2";
-
+import { BiCommentDetail } from "react-icons/bi";
 const DashSideBar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -56,26 +56,35 @@ const DashSideBar = () => {
               </Sidebar.Item>
             </Link>
             {currentUser.isAdmin && (
-              <Link to={"/dashboard?tab=posts"}>
-                <Sidebar.Item
-                  active={tab === "posts"}
-                  icon={HiDocumentText}
-                  as="div"
-                >
-                  Posts
-                </Sidebar.Item>
-              </Link>
-            )}
-            {currentUser.isAdmin && (
-              <Link to={"/dashboard?tab=users"}>
-                <Sidebar.Item
-                  active={tab === "users"}
-                  icon={HiMiniUserGroup}
-                  as="div"
-                >
-                  Users
-                </Sidebar.Item>
-              </Link>
+              <>
+                <Link to={"/dashboard?tab=posts"}>
+                  <Sidebar.Item
+                    active={tab === "posts"}
+                    icon={HiDocumentText}
+                    as="div"
+                  >
+                    Posts
+                  </Sidebar.Item>
+                </Link>
+                <Link to={"/dashboard?tab=users"}>
+                  <Sidebar.Item
+                    active={tab === "users"}
+                    icon={HiMiniUserGroup}
+                    as="div"
+                  >
+                    Users
+                  </Sidebar.Item>
+                </Link>
+                <Link to={"/dashboard?tab=comments"}>
+                  <Sidebar.Item
+                    active={tab === "comments"}
+                    icon={BiCommentDetail}
+                    as="div"
+                  >
+                    Comments
+                  </Sidebar.Item>
+                </Link>
+              </>
             )}
 
             <Sidebar.Item
