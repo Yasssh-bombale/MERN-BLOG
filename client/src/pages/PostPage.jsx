@@ -10,7 +10,7 @@ const PostPage = () => {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState("");
   const [recentPosts, setRecentPosts] = useState([]);
-
+  // console.log(post);
   useEffect(() => {
     try {
       setLoading(true);

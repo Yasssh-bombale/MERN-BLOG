@@ -1,7 +1,5 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import {
   getDownloadURL,
   getStorage,
@@ -13,6 +11,8 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const CreatePost = () => {
   const [file, setFile] = useState("");
@@ -84,6 +84,48 @@ const CreatePost = () => {
     }
   };
 
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "code-block",
+    "link",
+    "image",
+    "color",
+  ];
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline"], // toggled buttons
+      ["blockquote", "code-block"],
+      ["link"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      // [{ direction: "rtl" }], // text direction
+
+      // [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      // [{ font: [] }],
+      // [{ align: [] }],
+
+      ["clean"], // remove formatting button
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+  };
+
   return (
     <div className="min-h-screen max-w-3xl p-3 mx-auto">
       <h1 className="text-center text-3xl font-semibold my-7">Create a post</h1>
@@ -150,6 +192,8 @@ const CreatePost = () => {
           theme="snow"
           placeholder="Write something..."
           className="h-72 mb-12"
+          formats={formats}
+          modules={modules}
           required
           onChange={(value) => setFormData({ ...formData, content: value })}
         />

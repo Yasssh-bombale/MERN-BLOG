@@ -89,7 +89,7 @@ const UpdatePost = () => {
       if (!res.ok) {
         return setPublishError(data.message);
       } else {
-        navigate(`/${data.post.slug}`);
+        navigate(`/post/${data.post.slug}`);
         toast.success(data.message);
         setPublishError("");
       }
@@ -97,6 +97,48 @@ const UpdatePost = () => {
       console.log(error);
       setPublishError(error.message);
     }
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "code-block",
+    "link",
+    "image",
+    "color",
+  ];
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline"], // toggled buttons
+      ["blockquote", "code-block"],
+      ["link"],
+
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      // [{ direction: "rtl" }], // text direction
+
+      // [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      // [{ font: [] }],
+      // [{ align: [] }],
+
+      ["clean"], // remove formatting button
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
   };
 
   return (
@@ -170,6 +212,8 @@ const UpdatePost = () => {
           required
           onChange={(value) => setFormData({ ...formData, content: value })}
           value={formData.content}
+          formats={formats}
+          modules={modules}
         />
         <Button type="submit" gradientDuoTone={"purpleToPink"}>
           Update post

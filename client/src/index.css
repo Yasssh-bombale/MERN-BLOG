@@ -34,3 +34,13 @@ body {
 .post-content a:hover {
   text-decoration: underline;
 }
+.post-content pre {
+  background-color: #1e293b;
+  color: #e8e7e7;
+  padding: 0.5rem;
+  white-space-collapse: preserve;
+  text-wrap: wrap;
+  border: 1px solid rgb(61, 69, 83);
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+}
