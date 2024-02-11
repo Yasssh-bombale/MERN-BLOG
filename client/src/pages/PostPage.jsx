@@ -59,6 +59,7 @@ const PostPage = () => {
       </div>
     );
   }
+
   return (
     <main className="flex flex-col min-h-screen max-w-6xl p-3 mx-auto">
       <h1
@@ -82,7 +83,14 @@ const PostPage = () => {
       />
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto max-w-2xl w-full text-sm">
         {/* toDateString */}
-        <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+        <span className="font-medium">
+          {post &&
+            new Date(post.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+        </span>
         <span className="italic">
           {post && (post.content.length / 1000).toFixed(0)} mins read
         </span>
