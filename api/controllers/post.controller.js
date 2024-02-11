@@ -59,7 +59,7 @@ export const getPosts = async (req, res, next) => {
         ], //$option:"i" means uppercase and lowercase not matters
       }),
     })
-      .sort({ updateAt: sortDirection })
+      .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
