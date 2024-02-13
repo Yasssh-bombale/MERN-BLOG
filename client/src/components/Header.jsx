@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Navbar, TextInput, Dropdown, Avatar } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,10 +11,33 @@ import toast from "react-hot-toast";
 
 const Header = () => {
   const path = useLocation().pathname;
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+  const [searchTerm, setSearchTerm] = useState("");
 
+  // implimenting search functionality;
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const urlSearchTerm = urlParams.get("searchTerm");
+
+    if (urlSearchTerm) {
+      setSearchTerm(urlSearchTerm);
+    }
+  }, [location.search]);
+
+  const submitSearchHandler = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const serachQuery = urlParams.toString();
+    navigate(`/search?${serachQuery}`);
+  };
+
+  //signOut handler;
   const signOutHandler = async () => {
     try {
       const res = await fetch("/api/user/signout", {
@@ -43,12 +66,14 @@ const Header = () => {
         Blog
       </Link>
 
-      <form>
+      <form onSubmit={submitSearchHandler}>
         <TextInput
           type="text"
           placeholder="search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Button color="gray" className="w-12 h-10 lg:hidden" pill>
           <AiOutlineSearch className="text-xl" />
