@@ -74,7 +74,7 @@ const CreatePost = () => {
       if (!res.ok) {
         return setPublishError(data.message);
       } else {
-        navigate(`/${data.post.slug}`);
+        navigate(`/post/${data.post.slug}`);
         toast.success(data.message);
         setPublishError("");
       }
