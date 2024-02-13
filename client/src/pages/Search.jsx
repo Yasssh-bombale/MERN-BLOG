@@ -18,7 +18,7 @@ const Search = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const urlSearchTerm = urlParams.get("searchTerm");
-    const urlSort = urlParams.get("sort");
+    const urlSort = urlParams.get("order");
     const urlCategory = urlParams.get("category");
 
     if (urlSearchTerm || urlSort || urlCategory) {
@@ -73,11 +73,38 @@ const Search = () => {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", sideBarData.searchTerm);
-    urlParams.set("sort", sideBarData.sort);
+    urlParams.set("order", sideBarData.sort);
     urlParams.set("category", sideBarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+
+  const showMoreClickHandler = async () => {
+    try {
+      const startIndex = posts.length;
+      const urlParams = new URLSearchParams(location.search);
+      urlParams.set("startIndex", startIndex);
+      const searchQuery = urlParams.toString();
+
+      const res = await fetch(`/api/post/getposts?${searchQuery}`);
+
+      if (!res.ok) {
+        return;
+      }
+      if (res.ok) {
+        const data = await res.json();
+        setPosts([...posts, ...data.posts]);
+        if (data.posts.length === 9) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row">
       {/* sidebar */}
@@ -109,6 +136,7 @@ const Search = () => {
               onChange={handleChange}
               id="category"
             >
+              <option value="uncategorized">Uncategorized</option>
               <option value="javascript">Javascript.js</option>
               <option value="reactjs">React.js</option>
               <option value="nextjs">Next.js</option>
@@ -121,11 +149,11 @@ const Search = () => {
         </form>
       </div>
       {/* right part */}
-      <div className="w-full">
+      <div className="w-full p-3">
         <h1 className="text-3xl font-semibold sm:border-b-2 border-gray-300 dark:border-gray-500 p-3">
           Posts results:
         </h1>
-        <div className="border flex flex-wrap p-7 gap-4 sm:gap-7 justify-center">
+        <div className="flex flex-wrap p-7 gap-4 sm:gap-7 justify-center">
           {!loading && posts.length === 0 && (
             <p className="text-xl text-gray-500">No posts found.</p>
           )}
@@ -134,6 +162,16 @@ const Search = () => {
             posts.length > 0 &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
         </div>
+        {showMore && (
+          <div className="w-full flex">
+            <button
+              onClick={showMoreClickHandler}
+              className="font-medium    text-teal-500 hover:underline mx-auto"
+            >
+              Show more
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
