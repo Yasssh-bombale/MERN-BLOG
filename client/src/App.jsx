@@ -4,7 +4,6 @@ import About from "./pages/About";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import DashBoard from "./pages/DashBoard";
-import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
