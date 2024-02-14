@@ -16,6 +16,30 @@ export const signUp = async (req, res, next) => {
     ) {
       return next(errorHandler(400, "All fields are required"));
     }
+
+    //checking size of username;
+    if (username.length < 7 || username.length > 20) {
+      return next(
+        errorHandler(400, "username must be betweem 7 and 20 characters")
+      );
+    }
+    if (!username.match(/^[a-zA-Z0-9]+$/)) {
+      return next(
+        errorHandler(400, "Username can contain letters and numbers only")
+      );
+    }
+
+    if (username !== username.toLowerCase()) {
+      return next(errorHandler(400, "Username must be in lower case"));
+    }
+    if (username.includes(" ")) {
+      return next(errorHandler(400, "Username can not contain spaces"));
+    }
+    // check for password;
+    if (password.length < 7) {
+      return next(errorHandler(400, "Password must be at least 6 characters"));
+    }
+
     //check for user already eixits in dataBase
     const isEmailTaken = await User.findOne({ email });
     const isUserNameTaken = await User.findOne({ username });
