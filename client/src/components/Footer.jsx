@@ -2,6 +2,8 @@ import React from "react";
 import { Footer } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { BsGithub, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
+import b4 from "../img/b4.jpg";
+
 const FooterComp = () => {
   return (
     <Footer container className="border border-t-8 border-teal-500">
@@ -13,10 +15,15 @@ const FooterComp = () => {
               to={"/"}
               className="whitespace-nowrap self-center text-lg sm:text-xl font-semibold dark:text-white"
             >
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
+              {/* <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
                 Yassshu's
               </span>
-              Blog
+              Blog */}
+              <img
+                src={b4}
+                alt="logo"
+                className="w-32 h-16 rounded-lg object-cover"
+              />
             </Link>
           </div>
           {/* About followUs legeal */}

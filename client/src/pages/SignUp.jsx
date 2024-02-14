@@ -5,7 +5,7 @@ import img1 from "../img/ios memoji 3.jpg";
 import { BiError } from "react-icons/bi";
 import toast from "react-hot-toast";
 import Oauth from "../components/Oauth";
-
+import b4 from "../img/b4.jpg";
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
@@ -56,14 +56,13 @@ const SignUp = () => {
               to={"/"}
               className="text-3xl md:text-4xl  font-bold dark:text-white "
             >
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
-                Yassshu's
-              </span>
-              Blog
+              <div className="h-52 w-52 bg-white flex items-center rounded-2xl md:rounded-r-none">
+                <img src={b4} alt="logo" className="w-full h-28 object-cover" />
+              </div>
             </Link>
             <img
               src={img1}
-              className="w-52 h-52 hidden md:inline rounded-2xl ml-1"
+              className="w-52 h-52 hidden md:inline rounded-r-2xl"
               alt="memoji"
             />
           </div>

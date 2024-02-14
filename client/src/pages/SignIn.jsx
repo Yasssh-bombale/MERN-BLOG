@@ -12,6 +12,15 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Oauth from "../components/Oauth";
 import confetti from "canvas-confetti";
+import logo1 from "../img/logo1.jpg";
+import logo2 from "../img/logo2.jpg";
+import logo3 from "../img/logo3.jpg";
+import logo4 from "../img/logo4.jpg";
+import b1 from "../img/b1.jpg";
+import b2 from "../img/b2.jpg";
+import b3 from "../img/b3.jpg";
+import b4 from "../img/b4.jpg";
+
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
@@ -88,14 +97,13 @@ const SignIn = () => {
               to={"/"}
               className="text-3xl md:text-4xl  font-bold dark:text-white "
             >
-              <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
-                Yassshu's
-              </span>
-              Blog
+              <div className="h-52 w-52 bg-white flex items-center rounded-2xl md:rounded-r-none">
+                <img src={b4} alt="logo" className="w-full h-28 object-cover" />
+              </div>
             </Link>
             <img
               src={img1}
-              className="w-52 h-52 hidden md:inline rounded-2xl ml-1"
+              className="w-52 h-52 hidden md:inline rounded-r-2xl"
               alt="memoji"
             />
           </div>

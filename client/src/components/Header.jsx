@@ -8,7 +8,7 @@ import { toggleTheme } from "../redux/theme/theme.slice";
 import { FiSun } from "react-icons/fi";
 import { signOutSuccess } from "../redux/user/user.slice";
 import toast from "react-hot-toast";
-
+import b4 from "../img/b4.jpg";
 const Header = () => {
   const path = useLocation().pathname;
   const location = useLocation();
@@ -55,15 +55,20 @@ const Header = () => {
     }
   };
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 ">
       <Link
         to={"/"}
         className="whitespace-nowrap self-center text-sm sm:text-lg font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
+        {/* <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-pink-500  text-white rounded-md">
           Yassshu's
         </span>
-        Blog
+        Blog */}
+        <img
+          src={b4}
+          alt="logo"
+          className="w-32 h-16 rounded-md object-cover"
+        />
       </Link>
 
       <form onSubmit={submitSearchHandler}>
@@ -79,7 +84,7 @@ const Header = () => {
           <AiOutlineSearch className="text-xl" />
         </Button>
       </form>
-      <div className="flex gap-4 md:order-2">
+      <div className="flex gap-3 md:order-2">
         <Button
           color="gray"
           className="w-15 h-10 inline"
