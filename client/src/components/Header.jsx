@@ -67,11 +67,11 @@ const Header = () => {
         <img
           src={b4}
           alt="logo"
-          className="w-32 h-16 rounded-md object-cover"
+          className="sm:w-32 sm:h-16 w-20 h-16 rounded-md object-cover"
         />
       </Link>
 
-      <form onSubmit={submitSearchHandler}>
+      <form onSubmit={submitSearchHandler} className=" ml-[-0.5rem]">
         <TextInput
           type="text"
           placeholder="search..."
