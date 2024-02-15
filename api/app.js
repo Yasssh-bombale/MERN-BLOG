@@ -5,10 +5,12 @@ import authRouter from "./routers/auth.router.js";
 import postRouter from "./routers/post.route.js";
 import commentRouter from "./routers/comment.route.js";
 import cookieParser from "cookie-parser";
+import path from "path";
+
 config({
   path: ".env", //env file located in root directory
 });
-
+const __dirname = path.resolve(); //it will returns an directory where the code is located when code is deployed we need to know what is directory of the code to locate {dist} folder which will be build on production using npm run build command;
 export const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -18,6 +20,14 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
+
+//production;
+app.use(express.static(path.join(__dirname, "/client/dist"))); //finding static folder ,it will find index.html inside the build and run the code;
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
 // Middleware for errors
 
 app.use((error, req, res, next) => {

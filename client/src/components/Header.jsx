@@ -55,7 +55,7 @@ const Header = () => {
     }
   };
   return (
-    <Navbar className="border-b-2 ">
+    <Navbar className="border-b-2">
       <Link
         to={"/"}
         className="whitespace-nowrap self-center text-sm sm:text-lg font-semibold dark:text-white"
@@ -76,18 +76,18 @@ const Header = () => {
           type="text"
           placeholder="search..."
           rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
+          className="sm:max-w-52 sm:w-full w-40"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button color="gray" className="w-12 h-10 lg:hidden" pill>
+        <Button color="gray" className="w-12 h-10 hidden" pill>
           <AiOutlineSearch className="text-xl" />
         </Button>
       </form>
       <div className="flex gap-3 md:order-2">
         <Button
           color="gray"
-          className="w-15 h-10 inline"
+          className="w-15 h-10 hidden sm:inline"
           pill
           onClick={() => dispatch(toggleTheme())}
         >
