@@ -55,7 +55,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
     }
   };
   return (
-    <div className="flex p-4 border-b dark:border-gray-600  border-red-500 max-w-2xl  w-full">
+    <div className="flex p-4 border-b dark:border-gray-600  max-w-2xl  w-full">
       <div className="flex-shrink-0 mr-3">
         <img
           className="h-11 w-11 object-cover bg-gray-200 rounded-full"
