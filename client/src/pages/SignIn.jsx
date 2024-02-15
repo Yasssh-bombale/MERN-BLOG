@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Label, TextInput, Alert, Spinner } from "flowbite-react";
 import img1 from "../img/ios memoji 3.jpg";
@@ -12,13 +12,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Oauth from "../components/Oauth";
 import confetti from "canvas-confetti";
-import logo1 from "../img/logo1.jpg";
-import logo2 from "../img/logo2.jpg";
-import logo3 from "../img/logo3.jpg";
-import logo4 from "../img/logo4.jpg";
-import b1 from "../img/b1.jpg";
-import b2 from "../img/b2.jpg";
-import b3 from "../img/b3.jpg";
 import b4 from "../img/b4.jpg";
 
 const SignIn = () => {
